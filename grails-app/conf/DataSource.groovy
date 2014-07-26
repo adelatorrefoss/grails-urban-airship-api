@@ -1,0 +1,1 @@
+../../../decathlon-web/grails-app/conf/DataSource.groovy
