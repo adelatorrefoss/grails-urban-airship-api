@@ -15,7 +15,7 @@ class UrbanAirshipApiGrailsPlugin {
     def author = "Antonio de la Torre"
     def authorEmail = "antondelatorre@gmail.com"
     def description = '''\
-    Grails Plugin to use the API services provided by the Urban Airship platform for Push Notifications
+    Grails Plugin that use the Java client that access the API services provided by the Urban Airship platform for Push Notifications
 '''
 
     // URL to the plugin's documentation
@@ -24,7 +24,7 @@ class UrbanAirshipApiGrailsPlugin {
     // Extra (optional) plugin metadata
 
     // License: one of 'APACHE', 'GPL2', 'GPL3'
-//    def license = "APACHE"
+    def license = "APACHE"
 
     // Details of company behind the plugin (if there is one)
 //    def organization = [ name: "My Company", url: "http://www.my-company.com/" ]
