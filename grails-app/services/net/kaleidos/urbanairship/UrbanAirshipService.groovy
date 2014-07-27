@@ -63,7 +63,7 @@ class UrbanAirshipService implements InitializingBean {
         }
     }
 
-    def _createPayload(alias, alert, customFields) {
+    PushPayload _createPayload(alias, alert, customFields) {
 
         def payloadBuilder = PushPayload.newBuilder()
                                          .setAudience(Selectors.alias(alias))
@@ -91,7 +91,7 @@ class UrbanAirshipService implements InitializingBean {
     }
 
 
-    def _createApiClient() {
+    APIClient _createApiClient() {
         APIClient apiClient = APIClient.newBuilder()
                        .setKey(urbanAirshipConfig.appKey)
                        .setSecret(urbanAirshipConfig.appMasterSecret)
