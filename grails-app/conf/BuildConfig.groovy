@@ -26,6 +26,9 @@ grails.project.dependency.resolution = {
 
         // runtime 'mysql:mysql-connector-java:5.1.18'
         compile 'com.urbanairship:java-client:0.2.2'
+
+        // Necessary for some unit tests to mock the Java Objects
+        test "org.objenesis:objenesis:2.1"
     }
 
     plugins {

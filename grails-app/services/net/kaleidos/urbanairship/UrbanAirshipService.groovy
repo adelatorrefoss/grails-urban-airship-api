@@ -33,35 +33,13 @@ class UrbanAirshipService implements InitializingBean {
 
     void sendPush(String alias, String alert, Map customFields) {
 
-        APIClient apiClient = APIClient.newBuilder()
-                                       .setKey(urbanAirshipConfig.appKey)
-                                       .setSecret(urbanAirshipConfig.appMasterSecret)
-                                       .build()
+        def apiClient = _createApiClient()
 
-        def payloadBuilder = PushPayload.newBuilder()
-                                         .setAudience(Selectors.alias(alias))
-
-        def notificationBuilder = Notification.newBuilder()
-        notificationBuilder.setAlert(alert)
-
-        if (customFields) {
-            notificationBuilder.addDeviceTypeOverride(DeviceType.ANDROID,
-                                AndroidDevicePayload.newBuilder()
-                                    .addAllExtraEntries(customFields).build())
-
-            notificationBuilder.addDeviceTypeOverride(DeviceType.IOS,
-                                IOSDevicePayload.newBuilder()
-                                    .addAllExtraEntries(customFields).build())
-        }
-
-        payloadBuilder.setNotification(notificationBuilder.build())
-        payloadBuilder.setDeviceTypes(DeviceTypeData.all())
-        PushPayload payload = payloadBuilder.build()
-
-        log.debug "PAYLOAD: ${payload.toJSON()}"
+        def payload = _createPayload(alias, alert, customFields)
 
         try {
             APIClientResponse<APIPushResponse> response = apiClient.push(payload)
+
             log.debug("PUSH SUCCEEDED")
             log.debug("RESPONSE: ${response.toString()}")
         }
@@ -85,4 +63,40 @@ class UrbanAirshipService implements InitializingBean {
         }
     }
 
+    def _createPayload(alias, alert, customFields) {
+
+        def payloadBuilder = PushPayload.newBuilder()
+                                         .setAudience(Selectors.alias(alias))
+
+        def notificationBuilder = Notification.newBuilder()
+        notificationBuilder.setAlert(alert)
+
+        if (customFields) {
+            notificationBuilder.addDeviceTypeOverride(DeviceType.ANDROID,
+                                AndroidDevicePayload.newBuilder()
+                                    .addAllExtraEntries(customFields).build())
+
+            notificationBuilder.addDeviceTypeOverride(DeviceType.IOS,
+                                IOSDevicePayload.newBuilder()
+                                    .addAllExtraEntries(customFields).build())
+        }
+
+        payloadBuilder.setNotification(notificationBuilder.build())
+        payloadBuilder.setDeviceTypes(DeviceTypeData.all())
+        PushPayload payload = payloadBuilder.build()
+
+        log.debug "PAYLOAD: ${payload.toJSON()}"
+
+        return payload
+    }
+
+
+    def _createApiClient() {
+        APIClient apiClient = APIClient.newBuilder()
+                       .setKey(urbanAirshipConfig.appKey)
+                       .setSecret(urbanAirshipConfig.appMasterSecret)
+                       .build()
+
+        return apiClient
+    }
 }
