@@ -31,3 +31,6 @@
 
 # vim temporal files
 *.swp
+
+# cobertura
+cobertura.ser
